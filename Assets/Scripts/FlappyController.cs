@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FlappyController : MonoBehaviour {
 
+    private Vector3 start;
     private Rigidbody rb;
     [SerializeField]
     private float forceX;
@@ -12,11 +14,23 @@ public class FlappyController : MonoBehaviour {
 
     void Awake()
     {
+        start = transform.position;
         rb = GetComponent<Rigidbody>();
+       
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start()
+    {
+        GameController.instance.RestartEvent += OnRestart;
+    }
+
+    private void OnRestart()
+    {
+        transform.position = start;
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (GameController.instance.isGameOver)
             return;
 
